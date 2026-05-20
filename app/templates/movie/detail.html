@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ movie.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detail.css') }}">
+</head>
+<body>
+
+<div class="backdrop"
+style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path if movie.backdrop_path else movie.poster_path }}');">
+    
+    <div class="overlay"></div>
+
+    {% if logged %}
+        <a href="{{ url_for('movie.userindex') }}" class="home-btn">← Home</a>
+    {% else %}
+        <a href="{{ url_for('movie.home') }}" class="home-btn">← Home</a>
+    {% endif %}
+
+</div>
+
+<div class="main-card">
+
+    <div class="left">
+        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="poster">
+    </div>
+
+    <div class="right">
+
+        <h1>{{ movie.title }}</h1>
+
+        <div class="meta">
+            ⭐ {{ "{:.1f}".format(movie.vote_average) }}
+            {% if movie.release_date %}
+                <span>{{ movie.release_date[:4] }}</span>
+            {% endif %}
+        </div>
+
+        <div class="genres">
+            {% for g in movie.genres %}
+                <span>{{ g.name }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="actions">
+            <a href="https://wmovies.icu/?s={{ movie.title }}" target="_blank">
+                <button class="watch">▶ Xem ngay</button>
+            </a>
+            {% if logged %}
+                <form action="/add_favorite" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="movie_id" value="{{ movie.id }}">
+                    <button type="submit" class= "fav {% if movie.id in favorites %}active{% endif %}">♥ Yêu thích</button>
+                </form>
+            {% endif %}
+            
+        </div>
+
+        <p class="overview">
+            {{ movie.overview }}
+        </p>
+
+    </div>
+
+</div>
+
+<div class="comment-section">
+
+    <div class="comment-header">
+        <h3>💬 Bình luận ({{comment|length}})</h3>
+    </div>
+
+    {% if not logged %}
+        <p class="login-warning">
+            Vui lòng <a href="{{ url_for('auth.signin') }}">đăng nhập</a> để tham gia bình luận.
+        </p>
+    {% else %}
+        <form action="{{ url_for('comment.add_comment') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="comment-box">
+                <textarea placeholder="Viết bình luận" name="content"></textarea>
+
+                <div class="comment-actions">
+                    <label class="spoiler">
+                        <input type="hidden" name="movie_id" value="{{ movie.id }}">
+                        <input type="checkbox" name="anonymous"> Ẩn Danh
+                    </label>
+
+                    <button type="submit" class="send-btn">Gửi ➤</button>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+
+    {% if comment|length ==0 %}
+        <div class="comments">
+            <div class="icon">💬</div>
+            <p>Chưa có bình luận nào</p>
+        </div>
+    {% else %}
+        <div class="comments-list">
+            {% for c in comment %}
+                <div class="comment-item">
+                    
+                    <div class="comment-user">
+                        {% if c['anonymous'] == 1 %}
+                            Ẩn danh
+                        {% else %}
+                            {{ c['user_name'] }}
+                        {% endif %}
+                    </div>
+
+                    <div class="comment-content">
+                        {{ c['contents'] }}
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang phim</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="header">
+    {% if logged %}
+        <a href="{{ url_for('movie.userindex') }}" class="home-btn">
+            Home
+        </a>
+    {% else %}
+        <a href="{{ url_for('movie.home') }}" class="home-btn">
+            Home
+        </a>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+
+    <form action="{{ url_for('movie.search') }}" method= "get">
+        <input class="search" type="text" name="q" placeholder="Search movie name" required value="{{ query or '' }}">
+        <button type="submit">Search</button>
+    </form>
+</header>
+
+<section class="movie-container">
+
+{% for movie in movies %}
+
+<div class="movie-card">
+
+    <img class="movie-img"
+    src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}">
+
+    <div class="movie-hover">
+
+        <img class="bg-img"
+        src="https://image.tmdb.org/t/p/w780{{ movie.backdrop_path }}">
+
+        <div class="movie-info">
+
+            <h3>{{ movie.title }}</h3>
+
+            <div class="actions">
+                <a href="https://wmovies.icu/?s={{ movie.title }}" target="_blank">
+                    <button >▶ Xem ngay</button>
+                </a>
+
+                <a href="{{url_for('movie.movie_detail', id=movie.id)}}">
+                    <button>Chi Tiết</button>
+                </a>
+
+                {% if logged %}
+                <form action="/add_favorite" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="movie_id" value="{{ movie.id }}">
+                    <button type="submit" class = "favorite-btn {% if movie.id in favorites %}active{% endif %}">♥</button>
+                </form>
+                {% endif %}
+
+            </div>
+
+            <p class="meta">
+                ⭐ {{ movie.vote_average }}
+            </p>
+
+            <p class="overview">
+                {{ movie.overview[:100] }}...
+            </p>
+
+        </div>
+    </div>
+
+</div>
+
+{% endfor %}
+
+</section>
+{% if showPage %}
+    <div class="pagination">
+
+        {% if page > 1 %}
+            <a href="{{ url_for(request.endpoint, page=1) }}">&laquo;</a>
+        {% else %}
+            <span class="disabled">&laquo;</span>
+        {% endif %}
+
+        {% if page > 1 %}
+            <a href="{{ url_for(request.endpoint, page=page-1) }}">&lsaquo;</a>
+        {% else %}
+            <span class="disabled">&lsaquo;</span>
+        {% endif %}
+
+        <span class="current">{{ page }}</span>
+
+        {% if page < total_pages %}
+            <a href="{{ url_for(request.endpoint, page=page+1) }}">&rsaquo;</a>
+        {% else %}
+            <span class="disabled">&rsaquo;</span>
+        {% endif %}
+
+        {% if page < total_pages %}
+            <a href="{{ url_for(request.endpoint, page=total_pages) }}">&raquo;</a>
+        {% else %}
+            <span class="disabled">&raquo;</span>
+        {% endif %}
+
+    </div>
+{% endif %}
+
+</body>
+</html>

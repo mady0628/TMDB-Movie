@@ -1,0 +1,246 @@
+body{
+    font-family: Arial, sans-serif;
+    background:#ddd;
+    margin:0;
+}
+
+.header{
+    padding:30px;
+    position:relative;
+    background:white;
+    text-align:center;
+}
+
+.auth{
+    position:absolute;
+    right:30px;
+    top:20px;
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+button{
+    padding:8px 16px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+.signup{
+    background: #222;
+    color:white;
+}
+
+.search{
+    width:600px;
+    padding:12px;
+    border-radius:25px;
+    border:2px solid black;
+    margin-top:10px;
+}
+
+.favorites{
+    background:#222;
+    color:white;
+    padding:8px 16px;
+    border-radius:8px;
+    border: 2px solid white;
+}
+
+.logout{
+    background: #222;
+    color: white;
+    padding: 8px 16px;
+    border-radius:8px;
+    border: 2px solid white;
+}
+
+.movie-container{
+    width:85%;
+    margin:40px auto;
+
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    gap:30px;
+
+    overflow:visible;
+}
+
+.movie-card{
+    background:white;
+    border-radius:10px;
+
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+
+    transition:0.3s;
+
+    position:relative;
+    overflow:visible;
+}
+
+.movie-card:hover{
+    transform:scale(1.05);
+    z-index:20;
+}
+
+.movie-img{
+    width:100%;
+    height:300px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.movie-hover{
+    position:absolute;
+    top:-80px;
+    left:0;
+
+    width:100%;
+    height:380px;
+
+    background:#222;
+    border-radius:12px;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:0.3s;
+    z-index:50;
+
+    overflow:hidden;
+}
+
+.movie-btn{
+    background: #222;
+}
+
+.movie-card:hover .movie-hover{
+    opacity:1;
+    visibility:visible;
+    transform:scale(1.1);
+}
+
+.bg-img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+}
+
+.movie-info{
+    padding:10px;
+    color:white;
+}
+
+.movie-info h3{
+    margin:5px 0;
+    font-size:16px;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    margin:10px 0;
+}
+
+.actions button{
+    padding:6px 10px;
+    border-radius:6px;
+    background:#222;
+    color:white;
+    border:1px solid white;
+}
+
+.favorite-btn.active{
+    color:red;
+}
+
+.meta{
+    font-size:14px;
+    margin-bottom:5px;
+}
+
+.overview{
+    font-size:13px;
+    color:#ccc;
+}
+
+.favorite-btn{
+    background:none;
+    border:none;
+
+    font-size:28px;
+
+    color:white;
+    text-shadow:0 0 6px rgba(0,0,0,0.8);
+
+    cursor:pointer;
+}
+
+.favorite-btn.active{
+    color:red;
+}
+
+.favorite-btn:hover{
+    transform:scale(1.2);
+}
+
+.home-btn{
+    position:absolute;
+    left:30px;
+    top:25px;
+
+    padding:8px 16px;
+    border-radius:8px;
+    background:#222;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.home-btn:hover{
+    opacity:0.85;
+}
+
+
+.pagination{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    margin:40px 0;
+}
+
+.pagination a,
+.pagination span{
+    padding:8px 14px;
+    border-radius:6px;
+    font-weight:bold;
+}
+
+.pagination a{
+    background:#222;
+    color:white;
+    text-decoration:none;
+}
+
+.pagination a:hover{
+    background:#79d157;
+}
+
+.pagination .current{
+    background:#79d157;
+    color:white;
+}
+
+.pagination .disabled{
+    background:#333;
+    color:#888;
+    cursor:not-allowed;
+}

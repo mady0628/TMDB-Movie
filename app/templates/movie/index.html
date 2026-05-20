@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="auth">
+            <button class="signin">
+                <a href="{{ url_for('auth.signin')}}">Sign in</a>
+            </button>
+            <button class="signup">
+                <a href="{{ url_for('auth.signup')}}">Sign up</a>
+            </button>
+    </div>
+{% endblock  %}
