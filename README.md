@@ -168,13 +168,3 @@ Lệnh start gợi ý trên Render:
 ```bash
 gunicorn run:app
 ```
-
-## Ghi chú bảo mật
-
-- Không commit file `.env` lên GitHub.
-- Không public API key hoặc thông tin database.
-- Nên dùng `DATABASE_URL` khi deploy để tránh cấu hình sai host/database.
-
-## Tác giả
-
-[Họ và tên của bạn]
